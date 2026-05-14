@@ -133,7 +133,7 @@ vim.keymap.set("n", "<leader>qd", function() persistence.stop() end, { desc = "D
 -- 4. Mason Setup (Install clangd and rust-analyzer here)
 require("mason").setup()
 require("mason-lspconfig").setup({
-  ensure_installed = { "clangd", "rust_analyzer" }
+  ensure_installed = { "clangd", "rust_analyzer", "pylsp" }
 })
 
 -- 5. Completion Setup (YCM-like behavior)
@@ -188,6 +188,28 @@ vim.lsp.config('ron-lsp', {
 	root_markers = { ".git", "Cargo.toml" },
 })
 
+-- Python Setup
+vim.lsp.config('pylsp', {
+  settings = {
+    pylsp = {
+      plugins = {
+        pycodestyle = {
+          ignore = {'W391'},
+          maxLineLength = 100
+        }
+      }
+    }
+  }
+})
+
+-- Javascript Setup
+-- Install with cargo install typescript-language-server and make sure ~/.cargo/bin is in path
+vim.lsp.config('typescript-language-server', {
+	cmd = { "typescript-language-server" },
+	filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
+    project_root_files = { "tsconfig.json" }
+})
+
 -- Restart the lsp while debugging ron-lsp
 vim.api.nvim_create_user_command('LspRestart', function()
   -- Stop the client for the current buffer
@@ -203,7 +225,7 @@ vim.api.nvim_create_user_command('LspRestart', function()
   vim.cmd('edit')
 end, {})
 
-vim.lsp.enable({ 'clangd', 'rust_analyzer', 'ron-lsp' })
+vim.lsp.enable({ 'clangd', 'rust_analyzer', 'ron-lsp', 'pylsp', 'typescript-language-server' })
 
 -- Setup telescope shortcuts to only work when an lsp is attached
 vim.api.nvim_create_autocmd('LspAttach', {
