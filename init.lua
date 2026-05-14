@@ -110,11 +110,43 @@ vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" }
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Diagnostics list" })
 
 -- Telescope (Search)
+
+local function live_grep_in_dir()
+    local builtin = require("telescope.builtin")
+    local actions = require("telescope.actions")
+    local action_state = require("telescope.actions.state")
+
+    -- 1. Open a picker to find the directory
+    builtin.find_files({
+        prompt_title = "Select Directory for Live Grep",
+        -- Use fd to only list directories for better fuzzy matching
+        find_command = { "fd", "--type", "d", "--strip-cwd-prefix" },
+        attach_mappings = function(prompt_bufnr, map)
+            -- Define what happens when you press <Enter>
+            actions.select_default:replace(function()
+                actions.close(prompt_bufnr)
+                local selection = action_state.get_selected_entry()
+                local dir = selection[1]
+
+                -- 2. Call live_grep with the chosen search_dirs
+                builtin.live_grep({
+                    search_dirs = { dir },
+                    prompt_title = "Live Grep in: " .. dir,
+                })
+            end)
+            return true
+        end,
+    })
+end
+
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Find Files' })
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Search Text (Grep)' })
+vim.keymap.set('n', '<leader>fs', builtin.grep_string, { desc = 'Search Text (Grep) under cursor or selection in current file' })
 vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Find Buffers' })
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Help Tags' })
+vim.keymap.set('n', '<leader>fm', builtin.marks, { desc = 'List vim marks and their value' })
+vim.keymap.set('n', '<leader>fd', live_grep_in_dir, { desc = '[S]earch by [G]rep in directory' })
 
 vim.keymap.set('n', '<leader>j', ":Telescope jumplist<CR>", { desc = 'Show jump history window' })
 
