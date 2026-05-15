@@ -77,7 +77,25 @@ require("lazy").setup({
         require("meow.review").setup({
             -- Your custom configuration goes here
         })
-    end
+    end,
+    keys = {
+        { "<leader>ra", "<Plug>(MeowReviewAdd)",            mode = { "n", "v" }, desc = "Add Review Comment" },
+        { "<leader>rd", "<Plug>(MeowReviewDelete)",         mode = { "n", "v" }, desc = "Delete Review Comment" },
+        { "<leader>re", "<Plug>(MeowReviewEdit)",           desc = "Edit Review Comment" },
+        { "<leader>rv", "<Plug>(MeowReviewView)",           desc = "View Review Comment" },
+        { "<leader>rE", "<Plug>(MeowReviewExport)",         desc = "Export Review" },
+        { "<leader>rX", "<Plug>(MeowReviewExportAndClear)", desc = "Export and Clear" },
+        { "<leader>rf", "<Plug>(MeowReviewExportFile)",     desc = "Export Current File" },
+        { "<leader>rc", "<Plug>(MeowReviewClear)",          desc = "Clear All Comments" },
+        { "<leader>rg", "<Plug>(MeowReviewGoto)",           desc = "Go to Review Comment" },
+        { "<leader>rG", "<Plug>(MeowReviewGotoFile)",       desc = "Go to Comment in File" },
+        { "<leader>rt", "<Plug>(MeowReviewGotoType)",       desc = "Go to Comment by Type" },
+        { "<leader>rR", "<Plug>(MeowReviewResolve)",        desc = "Resolve Comment" },
+        { "<leader>rA", "<Plug>(MeowReviewResolveAll)",     desc = "Resolve All Comments" },
+        { "<leader>rr", "<Plug>(MeowReviewReload)",         desc = "Reload Review" },
+        { "]r",         "<Plug>(MeowReviewNext)",           desc = "Next Review Comment" },
+        { "[r",         "<Plug>(MeowReviewPrev)",           desc = "Previous Review Comment" },
+    },
   },
 
   -- Mole, code annotation sessions for vim, outputs to markdown
@@ -88,8 +106,19 @@ require("lazy").setup({
     config = function()
         require("mole").setup({
             -- Your custom configuration goes here
+            -- keybindings
+            keys = {
+              annotate = "<leader>ma",        -- visual mode
+              start_session = "<leader>ms",   -- normal mode
+              stop_session = "<leader>mq",    -- normal mode
+              resume_session = "<leader>mr",  -- normal mode
+              toggle_window = "<leader>mw",   -- normal mode
+              jump_to_location = { "<CR>", "gd" }, -- in side panel
+              next_annotation = "]a",              -- in side panel
+              prev_annotation = "[a",              -- in side panel
+            },
         })
-    end
+    end,
   },
 })
 
