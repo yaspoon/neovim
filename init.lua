@@ -67,6 +67,30 @@ require("lazy").setup({
 
   -- A nice colorscheme (Optional, but Neovim looks better with one!)
   { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+
+  -- Meow.review a code annotation/review plugin with structured Markdown output for AI ingestion
+  {
+    "retran/meow.review.nvim",
+    dependencies = { "MunifTanjim/nui.nvim" },
+    event = "VeryLazy",
+    config = function()
+        require("meow.review").setup({
+            -- Your custom configuration goes here
+        })
+    end
+  },
+
+  -- Mole, code annotation sessions for vim, outputs to markdown
+  {
+    "zion-off/mole.nvim",
+    dependencies = { "MunifTanjim/nui.nvim" },
+    opts = {},
+    config = function()
+        require("mole").setup({
+            -- Your custom configuration goes here
+        })
+    end
+  },
 })
 
 -- Telescope ignore files in build
