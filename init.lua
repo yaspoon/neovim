@@ -76,6 +76,7 @@ require("lazy").setup({
     config = function()
         require("meow.review").setup({
             -- Your custom configuration goes here
+	    annotation_type_order = { "NOTE", "ISSUE", "SUGGESTION" },
         })
     end,
     keys = {
@@ -106,6 +107,7 @@ require("lazy").setup({
     config = function()
         require("mole").setup({
             -- Your custom configuration goes here
+	    virtual_text = true,
             -- keybindings
             keys = {
               annotate = "<leader>ma",        -- visual mode
