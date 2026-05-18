@@ -142,7 +142,20 @@ require("lazy").setup({
           picker = 'telescope',
         })
       end,
-  }
+  },
+
+  -- Render markdown directly in neovim
+  {
+    'MeanderingProgrammer/render-markdown.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' },            -- if you use the mini.nvim suite
+    opts = {},
+    config = function()
+      require("render-markdown").setup({
+          completions = { lsp = { enabled = true } },
+          enabled = false,
+      })
+      end,
+  },
 })
 
 -- Telescope ignore files in build
@@ -184,6 +197,9 @@ vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Floating d
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Diagnostics list" })
+
+vim.keymap.set("n", "<leader>me", ":RenderMarkdown enable<CR>" , { desc = "Enable markdown rendering" })
+vim.keymap.set("n", "<leader>md", ":RenderMarkdown disable<CR>" , { desc = "Disable markdown rendering" })
 
 -- Telescope (Search)
 
