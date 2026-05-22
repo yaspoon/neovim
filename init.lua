@@ -76,7 +76,14 @@ require("lazy").setup({
     config = function()
         require("meow.review").setup({
             -- Your custom configuration goes here
-	    annotation_type_order = { "NOTE", "ISSUE", "SUGGESTION" },
+	    -- annotation_type_order = { "NOTE", "ISSUE", "SUGGESTION" },
+           annotation_types = {
+               NOTE = { icon = "", hl = "DiagnosticInfo", label = "Note"},
+               TODO = { icon = "", hl = "DiagnosticHint", label = "Todo"},
+               MAYBEBUG = { icon = "", hl = "DiagnosticWarn", label = "MaybeBug"},
+               BUG = { icon = "", hl = "DiagnosticError", label = "Bug"},
+           },
+	       annotation_type_order = { "NOTE", "TODO", "MAYBEBUG", "BUG" },
         })
     end,
     keys = {
