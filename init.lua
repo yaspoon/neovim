@@ -156,6 +156,38 @@ require("lazy").setup({
       })
       end,
   },
+
+  -- 1. Navic - Put current Function/block breadcrumbs at the bottom of the window
+  {
+      "SmiteshP/nvim-navic",
+    dependencies = "neovim/nvim-lspconfig",
+    opts = {
+      lsp = {
+        auto_attach = true, -- Automatically attach to supported LSP servers
+      },
+      highlight = true,
+    },
+  },
+
+  -- 2. Feed it into your Lualine configuration
+  {
+    "nvim-lualine/lualine.nvim",
+    opts = {
+      sections = {
+        lualine_c = {
+          { "filename" }, -- Keeps your file name visible on the left
+          {
+            function()
+              return require("nvim-navic").get_location()
+            end,
+            cond = function()
+              return require("nvim-navic").is_available()
+            end,
+          },
+        },
+      },
+    },
+  },
 })
 
 -- Telescope ignore files in build
@@ -231,10 +263,22 @@ local function live_grep_in_dir()
     })
 end
 
+function find_symbols_telescope()
+    local builtin = require("telescope.builtin")
+    builtin.lsp_document_symbols({symbols = {"Function", "Method"}})
+end
+
+function find_symbols_treesitter()
+    local builtin = require("telescope.builtin")
+    builtin.treesitter()
+end
+
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Find Files' })
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Search Text (Grep)' })
-vim.keymap.set('n', '<leader>fs', builtin.grep_string, { desc = 'Search Text (Grep) under cursor or selection in current file' })
+vim.keymap.set('n', '<leader>ft', builtin.grep_string, { desc = 'Search Text (Grep) under cursor or selection in current file' })
+vim.keymap.set('n', '<leader>fs', find_symbols_telescope, { desc = '[F]ind [S]ymbols use telescope and lsp' })
+vim.keymap.set('n', '<leader>fsa', find_symbols_treesitter, { desc = '[F]ind [S]ymbols [A]lternate using treesitter' })
 vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Find Buffers' })
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Help Tags' })
 vim.keymap.set('n', '<leader>fm', builtin.marks, { desc = 'List vim marks and their value' })
