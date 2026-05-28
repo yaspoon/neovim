@@ -240,6 +240,18 @@ vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Diagnostic
 vim.keymap.set("n", "<leader>me", ":RenderMarkdown enable<CR>" , { desc = "Enable markdown rendering" })
 vim.keymap.set("n", "<leader>md", ":RenderMarkdown disable<CR>" , { desc = "Disable markdown rendering" })
 
+-- Copy relative path of current file being edited to clipboard
+vim.keymap.set('n', '<leader>cf', function()
+    vim.fn.setreg('+', vim.fn.expand('%'))
+    print("Copied relative path: " .. vim.fn.expand('%'))
+end, { desc = 'Copy current file relative path' })
+
+-- Copy absolute path of current file being edited to clipboard
+vim.keymap.set('n', '<leader>cF', function()
+    vim.fn.setreg('+', vim.fn.expand('%:p'))
+    print("Copied absolute path: " .. vim.fn.expand('%:p'))
+end, { desc = 'Copy current file absolute path' })
+
 -- Telescope (Search)
 
 local function live_grep_in_dir()
