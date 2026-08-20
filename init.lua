@@ -228,6 +228,7 @@ vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Move to window left of current"
 vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Move to window down of current" })
 vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Move to window up of current" })
 vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Move to window right of current" })
+vim.keymap.set("n", "<C-o>", "<C-w>o", { desc = "Maximize active split by closing all other windows" }) --Doesn't close the buffer though! Just the Window which is a viewport into that buffer
 
 
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, { desc = "Back to File Explorer" })
