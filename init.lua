@@ -253,6 +253,12 @@ vim.keymap.set('n', '<leader>cF', function()
     print("Copied absolute path: " .. vim.fn.expand('%:p'))
 end, { desc = 'Copy current file absolute path' })
 
+-- Copy current selection into clipboard - [y]ank [s]election to clipboard
+vim.keymap.set({"n", "v"}, "<leader>ys", '"+y', { desc = "[y]ank [s]election to clipboard" })
+
+-- Toggle line wrapping
+vim.keymap.set({"n", "v"}, "<leader>lw", ":set wrap!<CR>", { desc = "Toggle [l]ine [w]rapping" })
+
 -- Telescope (Search)
 
 local function live_grep_in_dir()
